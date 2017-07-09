@@ -1,0 +1,23 @@
+\documentclass[10pt,a4paper,final]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage[export]{adjustbox}
+\newtheorem{thm}{Theorem}
+\newtheorem{defn}[thm]{Definition}
+\newtheorem{exmp}[thm]{Example} % same for example numbers
+
+\title{ASCR Simulation of Gibbon Report}
+\author{Jialing Liu}
+
+
+\begin{document}
+\newcommand{\Int}{\int\limits}
+
+\maketitle
+
+
+
+\section{Introduction}

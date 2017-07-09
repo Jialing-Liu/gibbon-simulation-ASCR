@@ -1,0 +1,55 @@
+\documentclass[10pt,a4paper,final]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage[export]{adjustbox}
+\newtheorem{thm}{Theorem}
+\newtheorem{defn}[thm]{Definition}
+\newtheorem{exmp}[thm]{Example} % same for example numbers
+
+\title{ASCR Simulation of Gibbon Report}
+\date{}
+\author{Jialing Liu}
+
+
+\begin{document}
+\newcommand{\Int}{\int\limits}
+
+\maketitle
+
+\section{Introduction}
+This report aims at documenting the method and results of acoustic spatial capture-recapture(ASCR) on a simulated population of gibbons.
+Spatially explicit capture-recapture(SECR) has advantages over some old methods to estimate animal populations.
+In reality, some animal species are hard to see but easy to hear. Gibbon is that kind of animals. ASCR utilizes additional acoustic data that detected by signal traps, such as signal strength, bearings and arrival times.
+In general, we think ASCR estimate the population more accurately than SECR and some old methods originated in 1970s because of more information.
+It is necessary to simulate data and fit ASCR methods and compare it to old methods to prove its advantage.
+
+\section{ASCR}
+
+\subsection{}
+
+\section{Simulation}
+\begin{itemize}
+\item Generate a large grid of points representing the gibbon habitat and specify the locations of a triangular listening array with spacings of 400 metres.
+
+\item Gibbons are strongly territorial with mated pair and offspring. So consider a Gibbs hard core point process to simulate the locations of Gibbons with each territories. Sample points from a Gibbs hard core point process with $\beta$ and hardcore distance $h$.
+
+\item Simulate the capture histories by sampling from a half-normal detection function of the form
+$f(x) = \exp \left[{\frac{-x^2}{2 \sigma^2}}\right]$, where $\sigma$ is a parameter to be specified describing detectability (larger values of $\sigma$ imply greater detection probability at equal distances).
+
+\item  Simulate bearings to detected groups the listening traps heard. consider bearings follow a Von Mises distribution of mean equal to actual bearing and error of kappa.
+
+
+
+\item
+
+\item Establish an array of three listening posts in an equilateral triangle with spacings of 400 metres.
+\item Trained listeners record the time and bearing to calls from each listening post for one occasion.
+\item The number of groups is counted.
+\item 
+
+
+\end{itemize}
+\end{document}
