@@ -1,0 +1,8 @@
+ index   name             value      std.dev
+     1   D_link          -3.8164e+000 9.6854e-001
+     2   detpars_link[2] 6.6842e+000 5.7530e-001
+     3   suppars_link[1] -2.1185e+001 2.8579e+004
+     4   par_ests        2.2008e-002 2.1315e-002
+     5   par_ests        7.9967e+002 4.6005e+002
+     6   par_ests        6.3022e-010 1.8011e-005
+     7   esa             7.2702e+002 6.8029e+002

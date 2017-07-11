@@ -14,8 +14,8 @@ capture_history = function(traps, density, sigma,
                            hardcore = list(beta=NULL, hc=NULL)){
   spacing = attr(traps,'spacing')
   xrange = spacing*10
-  w = owin(xrange = c(-2*spacing,12*spacing), yrange = c(-2*spacing,12*spacing))
-  n <- round(density*(spacing^2)*196/10000)
+  w = owin(xrange = c(-10*spacing,20*spacing), yrange = c(-10*spacing,20*spacing))
+  n <- round(density*(spacing^2)*900/10000)
   # simulate the population with some reasonable guess for density, plot(pop) to verify
   sim_location <- rmh(model= list(cif = 'hardcore', par = hardcore, w = w), 
                                   start=list(n.start = n),
@@ -24,7 +24,7 @@ capture_history = function(traps, density, sigma,
   while(m != n){
     pop <- sim.popn(D = density,
                         expand.grid(x = c(0, xrange), y = c(0, xrange)),
-                        buffer = xrange / 5, nsessions = 1)
+                        buffer = xrange, nsessions = 1)
     m <- nrow(pop)
   }
   
