@@ -1,13 +1,31 @@
+set.seed(1111)
 traps <- generate_traps(spacing=400)
-capture <- capture_history(traps, density=0.04, sigma=500, 
-                           hardcore=list(beta=20,hc=350))
+capture <- capture_history(traps, density=0.04, sigma=1000, 
+                           hardcore=list(beta=5e-5,hc=350))
 as_capture <- convert_to_ascr(capture, kappa=5)
-ascr_mask <- make.mask(traps = traps, buffer=1000,
-                       type="trapbuffer") 
+ascr_mask <- make.mask(traps = traps, buffer=2000,
+                       type="trapbuffer",nx=100) 
 fit_ascr_hn <- fit.ascr(capt=as_capture, traps=traps,
                         fix = list(g0=1),
                         mask = ascr_mask, detfn = 'hn')
 summary(fit_ascr_hn)
+
+ff<-ascr_sim(spacing=400,density=0.04,sigma=1000,hardcore = list(beta=5e-5,hc=350),
+             kappa=5,buffer = 2000,out = 'all')
+ff
+
+buf<-seq(1600,1650,by=5)
+a<-NA
+for(i in 1:length(buf)){
+  ascr_mask <- make.mask(traps = traps, buffer=buf[i],
+                         type="trapbuffer") 
+  fit_ascr_hn <- fit.ascr(capt=as_capture, traps=traps,
+                          fix = list(g0=1),
+                          mask = ascr_mask, detfn = 'hn')
+  a[i]<-fit_ascr_hn$coefficients['D']
+  i<-i+1
+}
+D<-data.frame(buf,a)
 
 
 ascr_mask <- make.mask(traps = traps, buffer=1000,
