@@ -70,6 +70,7 @@ convert_to_ascr <- function(out,kappa) {
     }
     i=i+1
   }
+  row.names(bincapt) <- 1:nrow(bincapt)
   ascr_capt <- list(bincapt, bearing)
   names(ascr_capt)<-c('bincapt','bearing')
   return(ascr_capt)
