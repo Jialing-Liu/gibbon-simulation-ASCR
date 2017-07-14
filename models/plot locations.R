@@ -8,3 +8,11 @@ par(mfrow=c(1,1))
 plot_hardcore(spacing = 400, density = 0.02,  hardcore = list(beta= 4e-5,hc=700))
 
 plot_hardcore(spacing = 400, density = 0.04,  hardcore = list(beta= 4e-5,hc=700))
+
+plot_hardcore(spacing = 400, density = 0.19,  hardcore = list(beta= 4e-5,hc=350))
+
+plot_hardcore(spacing = 400, density = 0.04,  hardcore = list(beta= 4e-5,hc=350))
+
+plot_hardcore(spacing = 400, density = 0.1,   hardcore = list(beta= 4e-5,hc=700))
+
+
