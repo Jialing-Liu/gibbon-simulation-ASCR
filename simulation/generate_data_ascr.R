@@ -18,13 +18,13 @@ capture_history = function(traps, density, sigma,
   n <- round(density*(spacing^2)*900/10000)
   # simulate the population with some reasonable guess for density, plot(pop) to verify
   sim_location <- rmh(model= list(cif = 'hardcore', par = hardcore, w = w), 
-                                  start=list(n.start = n),
-                                  control=list(p=1))
+                      start=list(n.start = n),
+                      control=list(p=1))
   m=1
   while(m != n){
     pop <- sim.popn(D = density,
-                        expand.grid(x = c(0, xrange), y = c(0, xrange)),
-                        buffer = xrange, nsessions = 1)
+                    expand.grid(x = c(0, xrange), y = c(0, xrange)),
+                    buffer = xrange, nsessions = 1)
     m <- nrow(pop)
   }
   
@@ -34,11 +34,26 @@ capture_history = function(traps, density, sigma,
                       detectpar = list(g0 = 1, sigma = sigma), 
                       savepopn = TRUE, renumber = FALSE, p.available = 1)
   while(is.null(dim(out[, 1, ]))){
-    out = sim.capthist(traps, popn = pop, noccasions = 1, detectpar = list(g0 = 1, sigma = sigma), 
-                       savepopn = TRUE, renumber = FALSE, p.available = 1)
+    sim_location <- rmh(model= list(cif = 'hardcore', par = hardcore, w = w), 
+                        start=list(n.start = n),
+                        control=list(p=1))
+    m=1
+    while(m != n){
+      pop <- sim.popn(D = density,
+                      expand.grid(x = c(0, xrange), y = c(0, xrange)),
+                      buffer = xrange, nsessions = 1)
+      m <- nrow(pop)
+    }
+    
+    pop$x <- sim_location$x
+    pop$y <- sim_location$y
+    out <- sim.capthist(traps=traps, popn = pop, noccasions = 1,
+                        detectpar = list(g0 = 1, sigma = sigma), 
+                        savepopn = TRUE, renumber = FALSE, p.available = 1)
   }
   return(out)
 }
+
 
 
 #simulate bearing
