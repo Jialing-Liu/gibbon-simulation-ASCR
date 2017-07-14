@@ -5,9 +5,9 @@ ascr_n_sims<-100
 num_instances <- 50
 sigma<-1000
 spacing<-400
-hardcore<-list(beta=5e-4, hc = 350)
-kappa <- 5
-buffer <- 2000
+hardcore<-list(beta=5e-5, hc = 700)
+kappa <- 10
+buffer <- 3000
 true_density <- 0.01
 
 output <- matrix(0,nrow = num_instances, ncol = ascr_n_sims)
