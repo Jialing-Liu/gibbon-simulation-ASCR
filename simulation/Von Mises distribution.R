@@ -14,3 +14,10 @@ text(v,-0.04,'x=0.785(45)',cex=0.95, col = 'red')
 p <- 1-2*(1-pvonmises(v, mu=circular(0), kappa=10))
 text(0,0.7,paste('p',round(p,3),sep='='), cex = 1.1, col = 'red')
 
+plot(x, dvonmises(x, mu=circular(0), kappa=10),
+     type = 'l', xlim=c(-2,2), ylim=c(0,1.5), col='blue',
+     ylab = 'Probability Density',
+     main = 'The Von Mises Density Distribution \n (kappa = 10)')
+lines(x, dvonmises(x, mu=circular(0), kappa=5), col='red', add=T)
+lines(x,dvonmises(x, mu=circular(0), kappa=8),col='green')
+lines(x,dvonmises(x, mu=circular(0), kappa=1),col='orange')
