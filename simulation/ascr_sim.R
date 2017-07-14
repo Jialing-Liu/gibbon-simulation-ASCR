@@ -1,4 +1,4 @@
-ascr_sim <- function(x, spacing, density, sigma, hardcore, kappa,
+ascr_sim <- function(spacing, density, sigma, hardcore, kappa,
                      buffer, out='all') {
   traps <- generate_traps(spacing)
   capture <- capture_history(traps, density, sigma, hardcore)
