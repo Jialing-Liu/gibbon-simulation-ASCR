@@ -4,53 +4,32 @@ library(ascr)
 library(circular)
 
 # wrapper function for secr make.circle
-generate_traps = function(spacing){
-  xrange = yrange = spacing * 10 
-  return(make.circle(n = 3, spacing = spacing, detector = "proximity",
-                     originxy = c(xrange / 2, yrange / 2)))
-}
 
 capture_history = function(traps, density, sigma,
                            hardcore = list(beta=NULL, hc=NULL)){
   spacing = attr(traps,'spacing')
+  ns <- sqrt(nrow(traps)/3)
   xrange = spacing*10
-  w = owin(xrange = c(-10*spacing,20*spacing), yrange = c(-10*spacing,20*spacing))
-  n <- round(density*(spacing^2)*900/10000)
+  w = owin(xrange = c(0,5000*(ns+1)), yrange = c(0,5000*(ns+1)))
+  n <- round(density*area(w)/10000)
   # simulate the population with some reasonable guess for density, plot(pop) to verify
-  sim_location <- rmh(model= list(cif = 'hardcore', par = hardcore, w = w), 
+  sim_location <- rmh(model= list(cif = 'hardcore', par = hardcore, w = w),
                       start=list(n.start = n),
                       control=list(p=1))
   m=1
   while(m != n){
     pop <- sim.popn(D = density,
-                    expand.grid(x = c(0, xrange), y = c(0, xrange)),
-                    buffer = xrange, nsessions = 1)
+                    expand.grid(x = c(0, 5000*(ns+1)), y = c(0, 5000*(ns+1))),
+                    buffer = 0, nsessions = 1)
     m <- nrow(pop)
   }
-  
+
   pop$x <- sim_location$x
   pop$y <- sim_location$y
   out <- sim.capthist(traps=traps, popn = pop, noccasions = 1,
-                      detectpar = list(g0 = 1, sigma = sigma), 
+                      detectpar = list(g0 = 1, sigma = sigma),
                       savepopn = TRUE, renumber = FALSE, p.available = 1)
-  while(is.null(dim(out[, 1, ]))){
-    sim_location <- rmh(model= list(cif = 'hardcore', par = hardcore, w = w), 
-                        start=list(n.start = n),
-                        control=list(p=1))
-    m=1
-    while(m != n){
-      pop <- sim.popn(D = density,
-                      expand.grid(x = c(0, xrange), y = c(0, xrange)),
-                      buffer = xrange, nsessions = 1)
-      m <- nrow(pop)
-    }
-    
-    pop$x <- sim_location$x
-    pop$y <- sim_location$y
-    out <- sim.capthist(traps=traps, popn = pop, noccasions = 1,
-                        detectpar = list(g0 = 1, sigma = sigma), 
-                        savepopn = TRUE, renumber = FALSE, p.available = 1)
-  }
+
   return(out)
 }
 
