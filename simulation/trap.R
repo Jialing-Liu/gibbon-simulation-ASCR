@@ -1,10 +1,19 @@
-#generate traps,arranging in nx*ny
-generate_traps<-function(spacing=spacing, nx, ny){
-  out<-make.circle(n = 3, spacing = spacing, detector = 'proximity', originxy = c(5000,5000))
+require(secr)
+library(spatstat)
+library(ascr)
+library(circular)
+
+#spacing is the distance of traps in a triangle
+#generate traps,arranging in n lines and n columns
+#distance is the distance of triangles
+
+generate_traps<-function(spacing=spacing, n, distance){
+  out<-make.circle(n = 3, spacing = spacing, detector = 'proximity',
+                   originxy = c(5000,5000))
   k=1
-  for(i in 1:nx){
-    for(j in 1:ny){
-      originxy <- c(5000*i,5000*j)
+  for(i in 1:n){
+    for(j in 1:n){
+      originxy <- c(5000+distance*(i-1),5000+distance*(j-1))
       new <- make.circle(n = 3, spacing = spacing, detector = 'proximity',
                          originxy = originxy)
       out <- rbind(out, new)
@@ -13,5 +22,6 @@ generate_traps<-function(spacing=spacing, nx, ny){
   }
   out <- out[c(-1,-2,-3),]
   row.names(out)<-1:(nx*ny*3)
+  attr(out,'distance')<-distance
   return(out)
 }

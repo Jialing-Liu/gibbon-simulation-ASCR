@@ -1,7 +1,7 @@
-ascr_sim <- function(spacing,nx,ny, density, sigma, hardcore, kappa,
-                     buffer, out='all') {
-  traps <- generate_traps(spacing,nx,ny)
-  capture <- capture_history(traps, density, sigma, hardcore)
+ascr_sim <- function(spacing,n, distance, density, sigma, hardcore=NULL,
+                     strausshard = NULL, kappa, buffer, out='all') {
+  traps <- generate_traps(spacing,n,distance)
+  capture <- capture_history(traps, density, sigma, hardcore, strausshard)
   as_capture <- convert_to_ascr(capture, kappa)
   ascr_mask <- make.mask(traps = traps, buffer,
                          type="trapbuffer",nx=64) 
@@ -17,5 +17,5 @@ ascr_sim <- function(spacing,nx,ny, density, sigma, hardcore, kappa,
   }
   
 }
-sim
+
 
