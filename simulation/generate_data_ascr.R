@@ -7,7 +7,6 @@ capture_history = function(traps, density, sigma,
   spacing <- attr(traps,'spacing')
   distance <- attr(traps,'distance')
   ns <- sqrt(nrow(traps)/3)
-  xrange = spacing*10
   w = owin(xrange = c(0,10000+distance*(ns-1)), yrange = c(0,10000+distance*(ns-1)))
   pop <- sim.popn(D = density,
                     expand.grid(x = c(0,10000+distance*(ns-1)),
@@ -16,11 +15,11 @@ capture_history = function(traps, density, sigma,
   # simulate the population with some reasonable guess for density, plot(pop) to verify
   if(!is.null(hardcore)){
     sim_location <- rmh(model= list(cif = 'hardcore', par = hardcore, w = w),
-                        start=list(n.start = nrow(pop),
+                        start=list(n.start = nrow(pop)),
                         control=list(p=1))
   } else if(!is.null(strausshard)){
     sim_location <- rmh(model = list(cif = 'straush', par = strausshard, w = w),
-                        start = list(n.start = nrow(pop),
+                        start = list(n.start = nrow(pop)),
                         control = list(p = 1))
   }
   pop$x <- sim_location$x
