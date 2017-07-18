@@ -21,7 +21,7 @@ generate_traps<-function(spacing=spacing, n, distance){
     }
   }
   out <- out[c(-1,-2,-3),]
-  row.names(out)<-1:(nx*ny*3)
+  row.names(out)<-1:(3*n^2)
   attr(out,'distance')<-distance
   return(out)
 }
