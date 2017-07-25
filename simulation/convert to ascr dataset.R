@@ -17,11 +17,13 @@ convert_to_ascr <- function(out,kappa) {
       if(bincapt[i,j]==1){
         bearing_true[i,j]<-bearings(as.matrix(attr(out,'popn')),
                                     as.matrix(attr(out,'traps')))[as.numeric(rn[i]),j]
-        mu <- circular(bearing_true[i,j])
-        bearing[i,j] <- rvonmises(n = 1, mu, kappa = kappa,
-                                  control.circular = list(type='angles',units='radians')) 
-      } else {bearing_true[i,j] <-NA
-      bearing[i,j]<-NA
+        bearing_true <- circular(bearing_true)
+        a <- rvonmises(n = 5, bearing_true[i,j], kappa = kappa,
+                                  control.circular = list(type='angles',units='radians'))
+        b <- which.min(abs(a-bearing_true[i,j]))
+        bearing[i,j] <- a[b]
+      } else {bearing_true[i,j] <-0
+      bearing[i,j]<-0
       }
       j=j+1
     }
