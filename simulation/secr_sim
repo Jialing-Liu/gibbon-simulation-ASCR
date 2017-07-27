@@ -1,0 +1,33 @@
+secr_sim <- function(n, distance, density, sigma) {
+  traps <- generate_traps(n,distance)
+  w = owin(xrange = c(0,10000+distance*(ns-1)), yrange = c(0,10000+distance*(ns-1)))
+  pop <- sim.popn(D = density,
+                  expand.grid(x = c(0,10000+distance*(ns-1)),
+                              y = c(0,10000+distance*(ns-1))),
+                  buffer = 0, nsessions = 1)
+  capture <- sim.capthist(traps=traps, popn = pop, noccasions = 1,
+                      detectpar = list(g0 = 1, sigma = sigma),
+                      savepopn = TRUE, renumber = FALSE, p.available = 1)
+  fit <- secr.fit(capture, buffer=3000,detectfn = 'HN',
+                          fix = list(g0=1),trace=F,binom=1)
+  return(fit)
+}
+
+secr_density<-function(n_sims=n_sims, n_inst=n_inst, n=n, distance=distance,
+                      sigma=sigma, start_d=start_d, by=by){
+  density <- matrix(0,nrow = n_inst, ncol = n_sims)
+  density_error<-sigma_fit<-kappa_fit<-sigma_error<-kappa_error<-density
+  for(i in 1:n_inst){
+    for(j in 1:n_sims){
+      output <-secr_sim(n=n,distance = distance,density = start_d,
+                        sigma = sigma)
+      density[i,j] <- exp(output$fit$par[1])
+      density_error[i,j]<-density[i,j]/start_d
+      print(paste('instance',i,'simulation',j,' '))
+    }
+    start_d <- start_d + by
+  }
+  attr(density_error,'density')<-density
+  return(density_error)
+}
+
