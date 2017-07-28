@@ -15,10 +15,9 @@ convert_to_ascr <- function(out,simulate=F,kappa=NULL) {
   rn<-rownames(bincapt)
   for (i in 1:nr) {
     for (j in 1:nc){
-      if(bincapt[i,j]==1){
-        indi<-attr(out,'pop')[as.numeric(rn[i]),]
-        trap<-attr(out,'traps')[j,]
-        bearing_true[i,j]<-atan((indi$x-trap$x)/(indi$y-trap$y))
+      if(bincapt[i,j]==1)
+        bearing_true[i,j]<-bearings(as.matrix(attr(out,'popn')),
+                                    as.matrix(attr(out,'traps')))[as.numeric(rn[i]),j]
         bearing_true <- circular(bearing_true)
         if(simulate==T){
           a <- rvonmises(n = 5, bearing_true[i,j], kappa = kappa,
