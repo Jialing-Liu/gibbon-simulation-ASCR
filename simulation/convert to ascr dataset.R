@@ -1,5 +1,6 @@
-#simulate bearing
-convert_to_ascr <- function(out,kappa) {
+#convert capture history to ascr dataset with bearings
+
+convert_to_ascr <- function(out,simulate=F,kappa=NULL) {
   bincapt <- out[,1,]
   nr <- dim(out)[1]
   nc <- dim(out)[3]
@@ -15,13 +16,17 @@ convert_to_ascr <- function(out,kappa) {
   for (i in 1:nr) {
     for (j in 1:nc){
       if(bincapt[i,j]==1){
-        bearing_true[i,j]<-bearings(as.matrix(attr(out,'popn')),
-                                    as.matrix(attr(out,'traps')))[as.numeric(rn[i]),j]
+        indi<-attr(out,'pop')[as.numeric(rn[i]),]
+        trap<-attr(out,'traps')[j,]
+        bearing_true[i,j]<-atan((indi$x-trap$x)/(indi$y-trap$y))
         bearing_true <- circular(bearing_true)
-        a <- rvonmises(n = 5, bearing_true[i,j], kappa = kappa,
-                                  control.circular = list(type='angles',units='radians'))
-        b <- which.min(abs(a-bearing_true[i,j]))
-        bearing[i,j] <- a[b]
+        if(simulate==T){
+          a <- rvonmises(n = 5, bearing_true[i,j], kappa = kappa,
+                               control.circular = list(type='angles',units='radians'))
+          b <- which.min(abs(a-bearing_true[i,j]))
+          bearing[i,j] <- a[b]
+        }else {bearing[i,j] <- bearing_true[i,j]}
+        
       } else {bearing_true[i,j] <-0
       bearing[i,j]<-0
       }
